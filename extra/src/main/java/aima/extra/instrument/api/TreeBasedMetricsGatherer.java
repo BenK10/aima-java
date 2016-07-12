@@ -1,11 +1,12 @@
-package aima.core.search.api;
+package aima.extra.instrument.api;
+
 
 import aima.core.search.api.Node;
 import aima.core.search.api.Problem;
 import aima.core.search.basic.TreeSearch;
 import aima.core.search.basic.support.BasicNode;
 import aima.core.search.basic.support.BasicNodeFactory;
-import aima.core.search.api.Listener;
+import aima.extra.instrument.api.Listener;
 
 import java.util.*;
 

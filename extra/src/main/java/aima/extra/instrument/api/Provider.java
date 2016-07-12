@@ -1,6 +1,6 @@
-package aima.core.search.api;
+package aima.extra.instrument.api;
 
-import aima.core.search.api.Listener;
+import aima.extra.instrument.api.Listener;
 
 
 /**

@@ -20,7 +20,7 @@ public class TreeSearchInstrumented<A, S> extends TreeSearch<A, S> {
         int                numberAddedToFrontier();
         int                numberRemovedFromFrontier();
         Node<A, S>         node();
-        Map<S, Integer>    statesVisitiedCounts();
+        Map<S, Integer>    statesVisitedCounts();
         Map<S, Node<A, S>> statesInFrontierNotVisited();
         Node<A, S>         lastNodeVisited();
         List<Integer>      searchSpaceLevelCounts();
@@ -58,7 +58,7 @@ public class TreeSearchInstrumented<A, S> extends TreeSearch<A, S> {
     private int maxFrontierSize = 0;
     private int numberAddedToFrontier = 0;
     private int numberRemovedFromFrontier = 0;
-    private Map<S, Integer> statesVisitiedCounts = new HashMap<>();
+    private Map<S, Integer> statesVisitedCounts = new HashMap<>();
     private Map<S, Node<A, S>> statesInFrontierNotVisited = new HashMap<>();
     private Node<A, S> lastNodeVisited;
     private List<Integer> searchSpaceLevelCounts = new ArrayList<>();
@@ -95,7 +95,7 @@ public class TreeSearchInstrumented<A, S> extends TreeSearch<A, S> {
         int max = maxFrontierSize;
         int numberAdded = numberAddedToFrontier;
         int numberRemoved = numberRemovedFromFrontier;
-        final Map<S, Integer> visited =  statesVisitiedCounts;
+        final Map<S, Integer> visited =  statesVisitedCounts;
         final Map<S, Node<A, S>> notVisited = statesInFrontierNotVisited;
         final Node<A, S> last = lastNodeVisited;
         final List<Integer> levelCounts = searchSpaceLevelCounts;
@@ -109,7 +109,7 @@ public class TreeSearchInstrumented<A, S> extends TreeSearch<A, S> {
             public int  numberRemovedFromFrontier() { return numberRemoved; };
             public int maxFrontierSize() { return max; }
             public Node<A, S> node() { return node; }
-            public Map<S, Integer> statesVisitiedCounts() { return visited; }
+            public Map<S, Integer> statesVisitedCounts() { return visited; }
             public Map<S, Node<A, S>> statesInFrontierNotVisited() { return notVisited; }
             public Node<A, S> lastNodeVisited() { return last; }
             public List<Integer> searchSpaceLevelCounts() { return levelCounts; }
@@ -141,13 +141,13 @@ public class TreeSearchInstrumented<A, S> extends TreeSearch<A, S> {
             searchSpaceLevelRemainingCounts = new ArrayList<>(searchSpaceLevelRemainingCounts);
             searchSpaceLevelRemainingCounts.set(level, searchSpaceLevelRemainingCounts.get(level) - 1);
 
-            statesVisitiedCounts = new HashMap<>(statesVisitiedCounts);
-            Integer visitedCount = statesVisitiedCounts.get(removed.state());
+            statesVisitedCounts = new HashMap<>(statesVisitedCounts);
+            Integer visitedCount = statesVisitedCounts.get(removed.state());
             if (visitedCount == null)  {
-                statesVisitiedCounts.put(removed.state(), 1);
+                statesVisitedCounts.put(removed.state(), 1);
             }
             else {
-                statesVisitiedCounts.put(removed.state(), visitedCount+1);
+                statesVisitedCounts.put(removed.state(), visitedCount+1);
             }
 
 
@@ -177,7 +177,7 @@ public class TreeSearchInstrumented<A, S> extends TreeSearch<A, S> {
                 searchSpaceLevelRemainingCounts.set(level, searchSpaceLevelRemainingCounts.get(level) + 1);
             }
 
-            if (!statesVisitiedCounts.containsKey(e.state())) {
+            if (!statesVisitedCounts.containsKey(e.state())) {
                 if (!statesInFrontierNotVisited.containsKey(e.state())) {
                     statesInFrontierNotVisited = new HashMap<>(statesInFrontierNotVisited);
                     statesInFrontierNotVisited.put(e.state(), e);
@@ -209,7 +209,7 @@ public class TreeSearchInstrumented<A, S> extends TreeSearch<A, S> {
 	        maxFrontierSize = 0;
 	        numberAddedToFrontier = 0;
 	        numberRemovedFromFrontier = 0;
-	        statesVisitiedCounts.clear();
+	        statesVisitedCounts.clear();
 	        statesInFrontierNotVisited.clear();
 	        lastNodeVisited = null;
 	        searchSpaceLevelCounts.clear();

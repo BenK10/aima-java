@@ -1,4 +1,4 @@
-package aima.core.search.api;
+package aima.extra.instrument.api;
 
 /**
  * Listens for algorithm events of interest

@@ -150,7 +150,6 @@ public class TreeSearchInstrumented<A, S> extends TreeSearch<A, S> {
                 statesVisitedCounts.put(removed.state(), visitedCount+1);
             }
 
-
             if (statesInFrontierNotVisited.containsKey(removed.state())) {
                 statesInFrontierNotVisited = new HashMap<>(statesInFrontierNotVisited);
                 statesInFrontierNotVisited.remove(removed.state());

@@ -17,7 +17,7 @@ public interface Provider {
 		listeners.add(listener);
 	}
 	
-	default public void removeListenerCollection<Listener> listeners, Listener listener)
+	default public void removeListener(Collection<Listener> listeners, Listener listener)
 	{
 		listeners.remove(listener);
 	}

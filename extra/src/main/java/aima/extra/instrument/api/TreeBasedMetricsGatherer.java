@@ -13,25 +13,26 @@ import java.util.*;
 
 public class TreeBasedMetricsGatherer implements Listener {
 	
-	 private int maxFrontierSize = 0;
-	 private int numberAddedToFrontier = 0;
-	 private int numberRemovedFromFrontier = 0;
-	 private Map<S, Integer> statesVisitedCounts = new HashMap<>();
+	 private boolean            searchFailed = false;
+	 private int                maxFrontierSize = 0;
+	 private int                numberAddedToFrontier = 0;
+	 private int                numberRemovedFromFrontier = 0;
+	 private Map<S, Integer>    statesVisitedCounts = new HashMap<>();
 	 private Map<S, Node<A, S>> statesInFrontierNotVisited = new HashMap<>();
-	 private Node<A, S> lastNodeVisited;
-	 private List<Integer> searchSpaceLevelCounts = new ArrayList<>();
-	 private List<Integer> searchSpaceLevelRemainingCounts = new ArrayList<>();
-	
-	 public int                currentFrontierSize();
-	 public int                maxFrontierSize();
-	 public int                numberAddedToFrontier();
-	 public int                numberRemovedFromFrontier();
-	 public Node<A, S>         node();
-	 public Map<S, Integer>    statesVisitedCounts();
-	 public Map<S, Node<A, S>> statesInFrontierNotVisited();
-	 public Node<A, S>         lastNodeVisited();
-	 public List<Integer>      searchSpaceLevelCounts();
-	 public List<Integer>      searchSpaceLevelRemainingCounts();
+	 private Node<A, S>         lastNodeVisited;
+	 private List<Integer>      searchSpaceLevelCounts = new ArrayList<>();
+	 private List<Integer>      searchSpaceLevelRemainingCounts = new ArrayList<>();
+	 
+	 public boolean			   searchFailed() {return searchFailed;}
+	 public int                currentFrontierSize() {return numberAddedToFrontier - numberRemovedFromFrontier;}
+	 public int                maxFrontierSize() {return maxFrontierSize;}
+	 public int                numberAddedToFrontier() {return numberAddedToFrontier;}
+	 public int                numberRemovedFromFrontier() {return numberRemovedFromFrontier;}
+	 public Map<S, Integer>    statesVisitedCounts() {return statesVisitedCounts;}
+	 public Map<S, Node<A, S>> statesInFrontierNotVisited() {return statesInFrontierNotVisited;}
+	 public Node<A, S>         lastNodeVisited() {return lastNodeVisited;}
+	 public List<Integer>      searchSpaceLevelCounts() {vsearchSpaceLevelCounts;}
+	 public List<Integer>      searchSpaceLevelRemainingCounts() {return searchSpaceLevelRemainingCounts;}
 	 
 	 private final String REMOVE_UPDATE = "remove";
 	 private final String ADD_UPDATE = "add";
@@ -100,6 +101,7 @@ public class TreeBasedMetricsGatherer implements Listener {
 			  break;
 			  
 		  case FAILED:
+			  searchFailed = true;
 			  break;
 			  
 		  case NODE_EXPANDED:

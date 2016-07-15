@@ -1,5 +1,5 @@
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.11'
+    gradleVersion = '2.14'
 }
 
 allprojects {
@@ -12,10 +12,6 @@ allprojects {
     repositories {
         mavenCentral()
     }
-
-    dependencies {
-        testCompile group: 'junit', name: 'junit', version: '4.11'
-    }
 }
 
 subprojects {
@@ -23,17 +19,27 @@ subprojects {
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-    tasks.withType(Test) {
-        scanForTestClasses = false
-        include "**/*Test.class"
-    }
-
 }
 
 project(':') {
     dependencies {
         compile project(':gui')
+    }
+}
+
+project(':core') {
+}
+
+project(':extra') {
+	apply plugin: 'antlr'
+    dependencies {
+        antlr "org.antlr:antlr4:4.5.3"
+        compile project(":core")
+    }
+    
+    generateGrammarSource {
+        maxHeapSize = "64m"
+        arguments += ["-visitor", "-long-messages", "-package", "aima.extra.logic.propositional.parser"]
     }
 }
 
@@ -45,9 +51,33 @@ project(':gui') {
     }
 }
 
-project(':extra') {
+project(':test') {
     dependencies {
-        compile project(":core")
+        compile project(":extra")
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+	test {
+		// set heap size for the test JVM(s)
+		minHeapSize = "128m"
+		maxHeapSize = "1024m"
+		
+		testLogging.showStandardStreams = true
+		testLogging.showExceptions = true
+		 
+		afterTest { descriptor, result ->
+			if (result.getResultType() == TestResult.ResultType.FAILURE) {
+				logger.lifecycle("FAILED test: " + descriptor)
+			}
+  		}
+  		
+  		onOutput { descriptor, event ->
+			logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
+		}
+	}
+	
+	tasks.withType(Test) {
+        scanForTestClasses = false
+        include "**/*Test.class"
     }
 }
 
@@ -55,3 +85,4 @@ task AIMADemoApp(type: JavaExec, dependsOn: classes) {
     main = 'aima.gui.app.AIMADemoApp'
     classpath = files(sourceSets.main.output, configurations.runtime)
 }
+

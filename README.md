@@ -1,8 +1,8 @@
 # AIMA4e-Java (JDK 8+) [![Build Status](https://travis-ci.org/aimacode/aima-java.svg?branch=AIMA4e)](https://travis-ci.org/aimacode/aima-java)
-Java implementation of algorithms from Norvig And Russell's "Artificial Intelligence - A Modern Approach 4th Edition."
+Java implementation of algorithms from Russell and Norvig's "Artificial Intelligence - A Modern Approach 4th Edition." You can use this in conjunction with a course on AI, or for study on your own. We're loooking for [solid contributors](https://github.com/aimacode/aima-java/wiki/AIMAJava-Contributing) to help.
 
 ---
-## NOTE: This is an in progress complete rewrite of the algorithms, leveraging JDK 8's new language features, from the AIMA3e branch (currently master branch). This will also become the new master branch once the 4th edition of "Artificial Intelligence - A Modern Approach" is published.
+### NOTE: This is an in progress complete rewrite of the algorithms, leveraging JDK 8's new language features, from the AIMA3e branch (currently master branch). This will also become the new master branch once the 4th edition of "Artificial Intelligence - A Modern Approach" is published.
 
 ---
 ## Index of Implemented Algorithms
@@ -11,163 +11,396 @@ Java implementation of algorithms from Norvig And Russell's "Artificial Intellig
    <tr>
        <td><b>Fig</b></td>
        <td><b>Page</b></td>
-       <td><b>Name (in book)</b></td>
-       <td><b>Code</b></td>
+       <td><b>Name/Pseudocode (in book)</b></td>
+       <td><b>Implementation(s)</b></td>
    </tr>
    <tr>
-       <td>2.1</td>
-       <td>35</td>
+       <td>2.?</td>
+       <td>??</td>
        <td>Agent</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/agent/api/Agent.java">Agent</a></td>
+       <td><a href="core/src/main/java/aima/core/agent/api/Agent.java">Agent</a></td>
    </tr>
    <tr>
-       <td>2.3</td>
-       <td>36</td>
-       <td>Table-Driven-Vacuum-Agent</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/environment/vacuum/agent/TableDrivenVacuumAgent.java">TableDrivenVacuumAgent</a></td>
+       <td>2.?</td>
+       <td>??</td>
+       <td>Table-Driven-Vacuum-Agent</a></td>
+       <td><a href="core/src/main/java/aima/core/environment/vacuum/TableDrivenVacuumAgent.java">TableDrivenVacuumAgent</a></td>
    </tr>
    <tr>
-       <td>2.7</td>
-       <td>47</td>
-       <td>Table-Driven-Agent</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/agent/basic/TableDrivenAgent.java">TableDrivenAgent</a></td>
+       <td>2.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Table-Driven-Agent.md">Table-Driven-Agent</a></td>
+       <td><a href="core/src/main/java/aima/core/agent/basic/TableDrivenAgent.java">TableDrivenAgent</a></td>
    </tr>
    <tr>
-       <td>2.8</td>
-       <td>48</td>
-       <td>Reflex-Vacuum-Agent</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/environment/vacuum/agent/ReflexVacuumAgent.java">ReflexVacuumAgent</a></td>
+       <td>2.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Reflex-Vacuum-Agent.md">Reflex-Vacuum-Agent</a></td>
+       <td><a href="core/src/main/java/aima/core/environment/vacuum/ReflexVacuumAgent.java">ReflexVacuumAgent</a></td>
    </tr>
    <tr>
-       <td>2.10</td>
-       <td>49</td>
-       <td>Simple-Reflex-Agent</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/agent/basic/SimpleReflexAgent.java">SimpleReflexAgent</a></td>
+       <td>2.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Simple-Reflex-Agent.md">Simple-Reflex-Agent</a></td>
+       <td><a href="core/src/main/java/aima/core/agent/basic/SimpleReflexAgent.java">SimpleReflexAgent</a></td>
    </tr>
    <tr>
-       <td>2.12</td>
-       <td>51</td>
-       <td>Model-Based-Reflex-Agent</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/agent/basic/ModelBasedReflexAgent.java">ModelBasedReflexAgent</a></td>
+       <td>2.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Model-Based-Reflex-Agent.md">Model-Based-Reflex-Agent</a></td>
+       <td><a href="core/src/main/java/aima/core/agent/basic/ModelBasedReflexAgent.java">ModelBasedReflexAgent</a></td>
    </tr>
    <tr>
-       <td>3</td>
-       <td>66</td>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+   </tr>
+   <tr>
+       <td>3?</td>
+       <td>??</td>
        <td>Problem</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/api/Problem.java">Problem</a></td>
+       <td><a href="core/src/main/java/aima/core/search/api/Problem.java">Problem</a></td>
    </tr>
    <tr>
-       <td>3.1</td>
-       <td>67</td>
-       <td>Simple-Problem-Solving-Agent</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/agent/basic/SimpleProblemSolvingAgent.java">SimpleProblemSolvingAgent</a></td>
+       <td>3?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Simple-Problem-Solving-Agent.md">Simple-Problem-Solving-Agent</a></td>
+       <td><a href="core/src/main/java/aima/core/agent/basic/SimpleProblemSolvingAgent.java">SimpleProblemSolvingAgent</a></td>
    </tr>
    <tr>
-       <td>3.2</td>
-       <td>68</td>
+       <td>3.?</td>
+       <td>??</td>
        <td>Romania</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/environment/map2d/SimplifiedRoadMapOfPartOfRomania.java">SimplifiedRoadMapOfPartOfRomania</a></td>
+       <td><a href="core/src/main/java/aima/core/environment/map2d/SimplifiedRoadMapOfPartOfRomania.java">SimplifiedRoadMapOfPartOfRomania</a></td>
    </tr>
    <tr>
-       <td>3.7</td>
-       <td>77</td>
-       <td>Tree-Search</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/TreeSearch.java">TreeSearch</a></td>
+       <td rowspan="5">3.?</td>
+       <td rowspan="5">??</td>
+       <td rowspan="5"><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Tree-Search-and-Graph-Search.md">Tree-Search</a></td>
+       <td>
+       <a href="core/src/main/java/aima/core/search/basic/uninformed/TreeSearch.java">TreeSearch</a>
+       </td>
    </tr>
    <tr>
-       <td>3.7</td>
-       <td>77</td>
-       <td>Graph-Search</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/GraphSearch.java">GraphSearch</a></td>
+       <td>
+       Alternative(s)
+       </td>
    </tr>
    <tr>
-       <td>3.10</td>
-       <td>79</td>
-       <td>Node</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/api/Node.java">Node</a></td>
+       <td>
+       <a href="extra/src/main/java/aima/extra/search/pqueue/uninformed/TreeQueueSearch.java">TreeQueueSearch</a>
+       </td>
    </tr>
    <tr>
-       <td>3.11</td>
-       <td>82</td>
-       <td>Breadth-First-Search</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/uninformed/BreadthFirstGraphSearch.java">BreadthFirstGraphSearch</a></td>
+       <td>
+       <a href="extra/src/main/java/aima/extra/search/pqueue/uninformed/TreeGoalTestedFirstQueueSearch.java">TreeGoalTestedFirstQueueSearch</a>
+       </td>
    </tr>
    <tr>
-       <td>3.14</td>
-       <td>84</td>
-       <td>Uniform-Cost-Search</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/uninformed/UniformCostGraphSearch.java">UniformCostGraphSearch</a></td>
-   </tr>
-   <tr>
-       <td>3</td>
-       <td>85</td>
-       <td>Depth-first Search</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/uninformed/DepthFirstGraphSearch.java">DepthFirstGraphSearch</a></td>
-   </tr>
-   <tr>
-       <td>3.17</td>
-       <td>88</td>
-       <td>Depth-Limited-Search</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/uninformed/DepthLimitedTreeSearch.java">DepthLimitedTreeSearch</a></td>
-   </tr>
-   <tr>
-       <td>3.18</td>
-       <td>89</td>
-       <td>Iterative-Deepening-Search</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/uninformed/IterativeDeepeningSearch.java">IterativeDeepeningSearch</a></td>
-   </tr>
-   <tr>
-       <td>3</td>
-       <td>92</td>
-       <td>Best-First search</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/informed/BestFirstGraphSearch.java">BestFirstGraphSearch</a></td>
-   </tr>
-   <tr>
-       <td>3</td>
-       <td>92</td>
-       <td>Greedy best-First search</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/informed/GreedyBestFirstGraphSearch.java">GreedyBestFirstGraphSearch</a></td>
-   </tr>
-   <tr>
-       <td>3</td>
-       <td>93</td>
-       <td>A* Search</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/informed/AStarGraphSearch.java">AStarGraphSearch</a></td>
-   </tr>
-   <tr>
-       <td>3.26</td>
-       <td>99</td>
-       <td>Recursive-Best-First-Search</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/informed/RecursiveBestFirstSearch.java">RecursiveBestFirstSearch</a></td>
-   </tr>
-   <tr>
-       <td>4.2</td>
-       <td>122</td>
-       <td>Hill-Climbing</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/local/HillClimbingSearch.java">HillClimbingSearch</a></td>
-   </tr>
-   <tr>
-       <td>4.5</td>
-       <td>126</td>
-       <td>Simulated-Annealing</td>
-       <td><a href="https://github.com/aimacode/aima-java/blob/AIMA4e/core/src/main/java/aima/core/search/basic/local/SimulatedAnnealingSearch.java">SimulatedAnnealingSearch</a></td>
+       <td>
+       <a href="extra/src/main/java/aima/extra/search/pqueue/uninformed/TreePriorityQueueSearch.java">TreePriorityQueueSearch</a>
+       </td>
    </tr>   
+   <tr>
+       <td rowspan="6">3.?</td>
+       <td rowspan="6">??</td>
+       <td rowspan="6"><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Tree-Search-and-Graph-Search.md">Graph-Search</a></td>
+       <td><a href="core/src/main/java/aima/core/search/basic/uninformed/GraphSearch.java">GraphSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td>
+       Alternative(s)
+       </td>
+   </tr>
+   <tr>
+       <td>
+       <a href="extra/src/main/java/aima/extra/search/pqueue/uninformed/GraphQueueSearch.java">GraphQueueSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td>
+       <a href="extra/src/main/java/aima/extra/search/pqueue/uninformed/GraphGoalTestedFirstQueueSearch.java">GraphGoalTestedFirstQueueSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td>
+       <a href="extra/src/main/java/aima/extra/search/pqueue/uninformed/GraphPriorityQueueSearch.java">GraphPriorityQueueSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td>
+       <a href="extra/src/main/java/aima/extra/search/pqueue/uninformed/GraphRLPriorityQueueSearch.java">GraphRLPriorityQueueSearch</a>
+       </td>
+   </tr>  
+   <tr>
+       <td>3.?</td>
+       <td>??</td>
+       <td>Node</td>
+       <td><a href="core/src/main/java/aima/core/search/api/Node.java">Node</a></td>
+   </tr>
+   <tr>
+       <td rowspan="3">3.?</td>
+       <td rowspan="3">??</td>
+       <td rowspan="3"><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Breadth-First-Search.md">Breadth-First-Search</a></td>
+       <td><a href="core/src/main/java/aima/core/search/basic/uninformed/BreadthFirstSearch.java">BreadthFirstSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td>
+       Alternative(s)
+       </td>
+   </tr>
+   <tr>
+       <td>
+       <a href="extra/src/main/java/aima/extra/search/pqueue/uninformed/BreadthFirstQueueSearch.java">BreadthFirstQueueSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td rowspan="3">3.?</td>
+       <td rowspan="3">??</td>
+       <td rowspan="3"><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Uniform-Cost-Search.md">Uniform-Cost-Search</a></td>
+       <td><a href="core/src/main/java/aima/core/search/basic/uninformed/UniformCostSearch.java">UniformCostSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td>
+       Alternative(s)
+       </td>
+   </tr>
+   <tr>
+       <td>
+       <a href="extra/src/main/java/aima/extra/search/pqueue/uninformed/UniformCostQueueSearch.java">UniformCostQueueSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td>3?</td>
+       <td>??</td>
+       <td>Depth-first Search</td>
+       <td>
+       <a href="extra/src/main/java/aima/extra/search/pqueue/uninformed/DepthFirstQueueSearch.java">DepthFirstQueueSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td>3.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Depth-Limited-Search.md">Depth-Limited-Search</a></td>
+       <td><a href="core/src/main/java/aima/core/search/basic/uninformed/DepthLimitedTreeSearch.java">DepthLimitedTreeSearch</a></td>
+   </tr>
+   <tr>
+       <td>3.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Iterative-Deepening-Search.md">Iterative-Deepening-Search</a></td>
+       <td><a href="core/src/main/java/aima/core/search/basic/uninformed/IterativeDeepeningSearch.java">IterativeDeepeningSearch</a></td>
+   </tr>
+   <tr>
+       <td>3?</td>
+       <td>??</td>
+       <td>Best-First search</td>
+       <td>
+           <a href="extra/src/main/java/aima/extra/search/pqueue/informed/BestFirstQueueSearch.java">BestFirstQueueSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td>3?</td>
+       <td>??</td>
+       <td>Greedy best-First search</td>
+       <td>
+           <a href="extra/src/main/java/aima/extra/search/pqueue/informed/GreedyBestFirstQueueSearch.java">GreedyBestFirstQueueSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td rowspan="3">3?</td>
+       <td rowspan="3">??</td>
+       <td rowspan="3">A* Search</td>
+       <td>
+           <a href="core/src/main/java/aima/core/search/basic/informed/AStarSearch.java">AStarSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td>
+       Alternative(s)
+       </td>
+   </tr>
+   <tr>
+       <td>
+       	<a href="extra/src/main/java/aima/extra/search/pqueue/informed/AStarQueueSearch.java">AStarQueueSearch</a>
+       </td>
+   </tr>    
+   <tr>
+       <td>3.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Recursive-Best-First-Search.md">Recursive-Best-First-Search</a></td>
+       <td><a href="core/src/main/java/aima/core/search/basic/informed/RecursiveBestFirstSearch.java">RecursiveBestFirstSearch</a></td>
+   </tr>
+   <tr>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+   </tr>
+   <tr>
+       <td rowspan="3">4.?</td>
+       <td rowspan="3">??</td>
+       <td rowspan="3"><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Hill-Climbing.md">Hill-Climbing</a></td>
+		<td>
+       	<a href="core/src/main/java/aima/core/search/basic/local/HillClimbingSearch.java">HillClimbingSearch</a>
+       </td>
+   </tr>
+   <tr>
+       <td>
+       Alternative(s)
+       </td>
+   </tr>
+   <tr>
+       <td>
+       	<a href="extra/src/main/java/aima/extra/search/local/HillClimbingSearchWithSidewaysMoves.java">HillClimbingSearchWithSidewaysMoves</a>
+       </td>
+   </tr>   
+   <tr>
+       <td>4.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Simulated-Annealing.md">Simulated-Annealing</a></td>
+       <td><a href="core/src/main/java/aima/core/search/basic/local/SimulatedAnnealingSearch.java">SimulatedAnnealingSearch</a></td>
+   </tr>
+   <tr>
+       <td>4.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Genetic-Algorithm.md">Genetic-Algorithm</a></td>
+       <td><a href="core/src/main/java/aima/core/search/basic/local/GeneticAlgorithm.java">GeneticAlgorithm</a></td>
+   </tr>
+   <tr>
+       <td>4.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/And-Or-Graph-Search.md">And-Or-Graph-Search</a></td>
+       <td><a href="core/src/main/java/aima/core/search/basic/contingency/AndOrGraphSearch.java">AndOrGraphSearch</a></td>
+   </tr>
+   <tr>
+       <td>4.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Online-DFS-Agent.md">Online-DFS-Agent</a></td>
+       <td><a href="core/src/main/java/aima/core/agent/basic/OnlineDFSAgent.java">OnlineDFSAgent</a></td>
+   </tr>
+   <tr>
+       <td>4.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/LRTAStar-Agent.md">LRTA*-Agent</a></td>
+       <td><a href="core/src/main/java/aima/core/agent/basic/LRTAStarAgent.java">LRTAStarAgent</a></td>
+   </tr>
+   <tr>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+   </tr>
+   <tr>
+       <td>5.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Minimax-Decision.md">Minimax-Decision</a></td>
+       <td><a href="core/src/main/java/aima/core/search/basic/adversarial/MinimaxDecision.java">MinimaxDecision</a></td>
+   </tr>
+   <tr>
+       <td>5.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Alpha-Beta-Search.md">Alpha-Beta-Search</a></td>
+       <td><a href="core/src/main/java/aima/core/search/basic/adversarial/AlphaBetaSearch.java">AlphaBetaSearch</a></td>
+   </tr>
+   <tr>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+   </tr>
+   <tr>
+       <td>6.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/AC-3.md">AC-3</a></td>
+       <td><a href="core/src/main/java/aima/core/search/basic/csp/AC3.java">AC3</a></td>
+   </tr>
+   <tr>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+   </tr>
+   <tr>
+       <td>7.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/KB-Agent.md">KB-Agent</a></td>
+       <td><a href="core/src/main/java/aima/core/agent/basic/KBAgent.java">KBAgent</a></td>
+   </tr>
+   <tr>
+       <td>7.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/TT-Entails.md">TT-Entails</a></td>
+       <td><a href="core/src/main/java/aima/core/logic/basic/propositional/inference/TTEntails.java">TTEntails</a></td>
+   </tr>
+   <tr>
+       <td>7.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/PL-Resolution.md">PL-Resolution</a></td>
+       <td><a href="core/src/main/java/aima/core/logic/basic/propositional/inference/PLResolution.java">PLResolution</a></td>
+   </tr>
+   <tr>
+       <td>7.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/PL-FC-Entails.md">PL-FC-Entails?</a></td>
+       <td><a href="core/src/main/java/aima/core/logic/basic/propositional/inference/PLFCEntails.java">PLFCEntails</a></td>
+   </tr>
+   <tr>
+       <td>7.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/DPLL-Satisfiable.md">DPLL-Satisfiable?</a></td>
+       <td><a href="core/src/main/java/aima/core/logic/basic/propositional/inference/DPLLSatisfiable.java">DPLLSatisfiable</a></td>
+   </tr>
+   <tr>
+       <td>7.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/WalkSAT.md">WalkSAT</a></td>
+       <td><a href="core/src/main/java/aima/core/logic/basic/propositional/inference/WalkSAT.java">WalkSAT</a></td>
+   </tr>
+   <tr>
+       <td>7.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/Hybrid-Wumpus-Agent.md">Hybrid-Wumpus-Agent</a></td>
+       <td><a href="core/src/main/java/aima/core/environment/wumpusworld/HybridWumpusAgent.java">HybridWumpusAgent</a></td>
+   </tr>
+   <tr>
+       <td>7.?</td>
+       <td>??</td>
+       <td><a href="https://github.com/aimacode/aima-pseudocode/blob/master/md/SATPlan.md">SATPlan</a></td>
+       <td><a href="core/src/main/java/aima/core/logic/basic/propositional/inference/SATPlan.java">SATPlan</a></td>
+   </tr>
+   <tr>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+   </tr>
    </tbody>
 </table>
 
 ---
 ## TODO (REMEMBER - KEEP IT SIMPLE SIMPLE SIMPLE!!!! :)
-### CURRENT (Chp 3 and 4)
-* Change approach for checking state containment in queues to be more explicit and composable 
-  (i.e. BasicFrontierQueue and BasicPriorityFrontierQueue)
-* Re-design uninformed and informed search hierarchy to support similar functionality to aima3e branch:
-    * Add DepthFirstTreeSearch
-      (Note: pg. 86 'modified at no extra memory cost so that it checks new states against 
-       those on the path from the root to the current node; to avoid infinite loops)
-    * DepthFirstGraphSearch extend logic in BreadthFirstGraphSearch instead of GraphSearch?
-* Uniform-Cost-Search need a better mechanism for determining state containment in the
-  queue and remove a node with a higher state cost.
+### CURRENT (Rewrite of chapters 3 to 6) 
+#### Chp 3 
+* Uniform-Cost-Search NoOp case and need for small constant.
+* Add Bidirectional Search implementation.
+* GraphPriorityQueueSearch and TreePriorityQueueSearch potentially 
+  need a better mechanism for determining state containment and removal of a node 
+  with a lower priority (i.e. AbstractQueueSearchForActions.removedNodeFromFrontierWithSameStateAndLowerPriority()).
 * Recursive-Best-First-Search - look to improve/tidy up implementation.
+* Add a mechanism for gathering search metrics. Want to make more flexible and introduce less clutter into the core algorithms in order to support.
+
+#### Chp 4
+* Follow up on Genetic Algorithm experiments on N-Queens problem (based on aima3e implementation) to determine if performs no better than random selection.
+* Online-DFS-Agent - Clarify the need for the additional check `if (!sPrime.equals(result.get(s, a))) {`, which is not present in the pseudocode but required to stop it looping endlessly on certain test problems.
+
+#### Chp 5
+* Implement version of IterativeDeepeningAlphaBetaSearch from aima3e branch in `extra` module.
+
+#### Chp 6
 
 ### LATER
 
@@ -181,9 +414,8 @@ Java implementation of algorithms from Norvig And Russell's "Artificial Intellig
 * Add tests for all implemented algorithms.
 
 #### Chapter 2 'extra' module.
-* Environment defintion: Consider specifying Dimensions in API, see pg. 42.
-* Environment Simulator referenced on pg. 45 (this will be a refactor of the a lot of the environment stuff
-  in aima3e-core).
+* Environment definition: Consider specifying Dimensions in API, see pg. 42.
+* Environment Simulator referenced on pg. 45 (this will be a re-factor of a lot of the environment stuff in aima3e-core).
 
 ---
 

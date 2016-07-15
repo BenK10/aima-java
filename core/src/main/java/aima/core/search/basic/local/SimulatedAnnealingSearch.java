@@ -1,31 +1,31 @@
 package aima.core.search.basic.local;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.ToDoubleFunction;
 
-import aima.core.search.api.Node;
-import aima.core.search.api.NodeFactory;
 import aima.core.search.api.Problem;
-import aima.core.search.api.Search;
-import aima.core.search.basic.support.BasicNodeFactory;
+import aima.core.search.api.SearchForStateFunction;
+import aima.core.search.basic.support.BasicSchedule;
 
 /**
- * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.<br>
+ * Artificial Intelligence A Modern Approach (4th Edition): Figure ??, page ??.
+ * <br>
  * <br>
  * 
  * <pre>
  * function SIMULATED-ANNEALING(problem, schedule) returns a solution state
- *                    
- *   current &lt;- MAKE-NODE(problem.INITIAL-STATE)
- *   for t = 1 to INFINITY do
- *     T &lt;- schedule(t)
+ *   inputs: problem, a problem
+ *           schedule, a mapping from time to "temperature"
+ *
+ *   current &larr; MAKE-NODE(problem.INITIAL-STATE)
+ *   for t = 1 to &infin; do
+ *     T &larr; schedule(t)
  *     if T = 0 then return current
- *     next &lt;- a randomly selected successor of current
- *     /\E &lt;- next.VALUE - current.value
- *     if /\E &gt; 0 then current &lt;- next
- *     else current &lt;- next only with probability e&circ;(/\E/T)
+ *     next &larr; a randomly selected successor of current
+ *     &Delta;E &larr; next.VALUE - current.value
+ *     if &Delta;E &gt; 0 then current &larr; next
+ *     else current &larr; next only with probability e<sup>&Delta;E/T</sup>
  * </pre>
  * 
  * Figure ?? The simulated annealing search algorithm, a version of stochastic
@@ -34,148 +34,123 @@ import aima.core.search.basic.support.BasicNodeFactory;
  * goes on. The schedule input determines the value of the temperature T as a
  * function of time.
  * 
+ * @author Ciaran O'Reilly
  * @author Anurag Rai
  * @author Ravi Mohan
  * @author Mike Stampone
  * @author Ruediger Lunde
  */
-public class SimulatedAnnealingSearch<A, S> implements Search<A, S> {
-	private ToDoubleFunction<Node<A, S>> h;
-	private Scheduler scheduler;
-	private NodeFactory<A, S> nodeFactory;
-	
-	public SimulatedAnnealingSearch(ToDoubleFunction<Node<A, S>> h) {
-		this(h, new Scheduler());
-	}
-	
-	public SimulatedAnnealingSearch(ToDoubleFunction<Node<A, S>> h, Scheduler scheduler) {
-		this(h, scheduler, new BasicNodeFactory<>());
-	}
-			
-	public SimulatedAnnealingSearch(ToDoubleFunction<Node<A, S>> h, Scheduler scheduler, NodeFactory<A, S> nodeFactory) {
-		this.h = h;
-		this.scheduler = scheduler;
-		this.nodeFactory = nodeFactory;
-	}
-	
-	@Override
-	public List<A> apply(Problem<A, S> problem) {
+public class SimulatedAnnealingSearch<A, S> implements SearchForStateFunction<A, S> {
+	// function SIMULATED-ANNEALING(problem, schedule) returns a solution state
+	public S simulatedAnnealing(Problem<A, S> problem, ToDoubleFunction<Integer> schedule) {
 		// current <- MAKE-NODE(problem.INITIAL-STATE)
-		Node<A, S> current = nodeFactory.newRootNode(problem.initialState(), 0);
-		List<A> ret = new ArrayList<A>();
+		Node<S> current = makeNode(problem.initialState());
 		// for t = 1 to INFINITY do
-		int timeStep = 0;
-		while ( true ) {
-			// temperature <- schedule(t)		
-			double temperature = scheduler.getTemp(timeStep);
-			timeStep++;
-			// if temperature = 0 then return current
-			if ( temperature == 0.0 ) {
-				ret = solution(current);
-				break;
+		for (int t = 1; true; t++) {
+			// T <- schedule(t)
+			double T = schedule(t);
+			// if T = 0 then return current
+			if (T == 0) {
+				return current.state;
 			}
-			
-			List<Node<A, S>> children = new ArrayList<>();
-			// expand the current node to find the children
-			for (A action : problem.actions(current.state())) {
-	               children.add(nodeFactory.newChildNode(problem, current, action));
-	        }
-			if ( !children.isEmpty() ) {
-				// next <- a randomly selected successor of current
-				Node<A, S> next = children.get(new Random().nextInt(children.size()));
-				// /\E <- next.VALUE - current.value
-				double deltaE = getValue(h, next) - getValue(getHeuristicFunctionH(), current);
-
-				if (shouldAccept(temperature, deltaE)) {
-					current = next;
-				}
+			// next <- a randomly selected successor of current
+			Node<S> next = randomlySelectSuccessor(current, problem);
+			// &Delta;E <- next.VALUE - current.VALUE
+			double DeltaE = next.value - current.value;
+			// if &Delta;E > 0 then current <- next
+			if (DeltaE > 0) {
+				current = next;
+			}
+			// else current <- next only with probability e^&Delta;E/T
+			else if (Math.exp(DeltaE / T) > random.nextDouble()) {
+				current = next;
 			}
 		}
-		return ret;
 	}
-	
+
+	//
+	// Supporting Code
+	@Override
+	public S apply(Problem<A, S> problem) {
+		return simulatedAnnealing(problem, schedule);
+	}
 
 	/**
-	 * Returns <em>e</em><sup>&delta<em>E / T</em></sup>
+	 * The algorithm does not maintain a search tree, so the data structure for
+	 * the current node need only record the state and value of the
+	 * objective/cost function.
 	 * 
-	 * @param temperature
-	 *            <em>T</em>, a "temperature" controlling the probability of
-	 *            downward steps
-	 * @param deltaE
-	 *            VALUE[<em>next</em>] - VALUE[<em>current</em>]
-	 * @return <em>e</em><sup>&delta<em>E / T</em></sup>
+	 * @author oreilly
+	 *
+	 * @param <S>
+	 *            the type of the state space
 	 */
-	public double probabilityOfAcceptance(double temperature, double deltaE) {
-		return Math.exp(deltaE / temperature);
+	public static class Node<S> {
+		S state;
+		double value;
+
+		Node(S state, double value) {
+			this.state = state;
+			this.value = value;
+		}
+
+		@Override
+		public String toString() {
+			return "N(" + state + ", " + value + ")";
+		}
 	}
 
+	/*
+	 * Represents an objective (higher better) or cost/heuristic (lower better)
+	 * function. If a cost/heuristic function is passed in the
+	 * 'isGradientAscentVersion' should be set to false for the algorithm to
+	 * search for minimums.
+	 */
+	protected ToDoubleFunction<S> stateValueFn;
+	protected ToDoubleFunction<Integer> schedule;
+	protected Random random = new Random();
 
-	// if /\E > 0 then current <- next
-	// else current <- next only with probability e^(/\E/T)
-	public boolean shouldAccept(double temperature, double deltaE) {
-		return (deltaE > 0.0)
-				|| (new Random().nextDouble() <= probabilityOfAcceptance(
-						temperature, deltaE));
+	public SimulatedAnnealingSearch(ToDoubleFunction<S> stateValueFn) {
+		this(stateValueFn, true);
 	}
 
-	public double getValue(ToDoubleFunction<Node<A, S>> hf, Node<A, S> n) {
-		// assumption greater heuristic value =>
-		// HIGHER on hill; 0 == goal state;
-		// SA deals with gradient DESCENT
-		return -1 * hf.applyAsDouble(n);
+	public SimulatedAnnealingSearch(ToDoubleFunction<S> stateValueFn, boolean isGradientAscentVersion) {
+		this(stateValueFn, isGradientAscentVersion, new BasicSchedule());
 	}
-	
-    public ToDoubleFunction<Node<A, S>> getHeuristicFunctionH() {
-    	return h;
-    }
-    
-    public Scheduler getScheduler() {
-    	return scheduler;
-    }
-    
-    /**
-     * The Scheduler for Simulated Annealing.
-     * 
-	 * @author Ravi Mohan
-	 * @author Anurag Rai
-     */
-    public static class Scheduler {
 
-      	private final int k, limit;
-    	private final double lam;
-    	
-    	//default constructor
-    	public Scheduler() {
-    		//base value
-    		this.k = 20;
-    		this.lam = 0.045;
-    		//time limit
-    		this.limit = 100;
-    	}
-    	
-    	public Scheduler(int k, double lam, int limit) {
-    		this.k = k;
-    		this.lam = lam;
-    		this.limit = limit;
-    	}
-    	
-    	/*
-    	* The probability also decreases as the temperature T goes down: 
-    	* bad moves are more likely to be allowed at the start
-    	* when T is high, and they become more unlikely as T decreases.
-    	*
-    	* @param t
-    	*		the time that has gone by from the start of the algo
-    	*
-    	* @return the value of schedule calculated as a function of given time
-    	*/
-    	public double getTemp(int t) {
-    	  if (t < limit) {
-    			double res = k * Math.exp((-1) * lam * t);
-    			return res;
-    		} else {
-    			return 0.0;
-    		}
-    	}
-    }
+	public SimulatedAnnealingSearch(ToDoubleFunction<S> stateValueFn, boolean isGradientAscentVersion,
+			ToDoubleFunction<Integer> scheduler) {
+		this.stateValueFn = stateValueFn;
+		if (!isGradientAscentVersion) {
+			// Convert from one to the other by switching the sign
+			this.stateValueFn = (state) -> stateValueFn.applyAsDouble(state) * -1;
+		}
+		this.schedule = scheduler;
+	}
+
+	public Node<S> makeNode(S state) {
+		return new Node<>(state, stateValueFn.applyAsDouble(state));
+	}
+
+	public double schedule(int t) {
+		double T = schedule.applyAsDouble(t);
+		if (T < 0) {
+			throw new IllegalArgumentException(
+					"Configured schedule returns negative temperatures: t=" + t + ", T=" + T);
+		}
+		return T;
+	}
+
+	public Node<S> randomlySelectSuccessor(Node<S> current, Problem<A, S> problem) {
+		// Default successor to current, so that in the case we reach a dead-end
+		// state i.e. one without reversible actions we will return something.
+		// This will not break the code above as the loop will exit when the
+		// temperature winds down to 0.
+		Node<S> successor = current;
+		List<A> actions = problem.actions(current.state);
+		if (actions.size() > 0) {
+			successor = makeNode(problem.result(current.state, actions.get(random.nextInt(actions.size()))));
+		}
+		return successor;
+	}
 }

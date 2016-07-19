@@ -11,7 +11,13 @@ import aima.extra.instrument.api.SearchEvent;
 
 import java.util.*;
 
-public class TreeBasedMetricsGatherer implements Listener {
+/**
+ * Gathers metrics for tree search 
+ * @author Benjamin Kusin
+ *
+ */
+
+public class TreeSearchMetricsGatherer implements Listener {
 	
 	 private boolean            searchFailed = false;
 	 private int                maxFrontierSize = 0;
@@ -31,7 +37,7 @@ public class TreeBasedMetricsGatherer implements Listener {
 	 public Map<S, Integer>    statesVisitedCounts() {return statesVisitedCounts;}
 	 public Map<S, Node<A, S>> statesInFrontierNotVisited() {return statesInFrontierNotVisited;}
 	 public Node<A, S>         lastNodeVisited() {return lastNodeVisited;}
-	 public List<Integer>      searchSpaceLevelCounts() {vsearchSpaceLevelCounts;}
+	 public List<Integer>      searchSpaceLevelCounts() {return searchSpaceLevelCounts;}
 	 public List<Integer>      searchSpaceLevelRemainingCounts() {return searchSpaceLevelRemainingCounts;}
 	 
 	 private final String REMOVE_UPDATE = "remove";
@@ -92,29 +98,29 @@ public class TreeBasedMetricsGatherer implements Listener {
     	 }
      }
      
-     @Override
+    @Override
 	public void processEvent(SearchEvent event, Node<A,S> node)
 	{
-		switch (event)
+		switch (event.eventType())
 		{
-		  case FOUND_GOAL:
+		  case SearchEvent.FOUND_GOAL:
 			  break;
 			  
-		  case FAILED:
+		  case SearchEvent.FAILED:
 			  searchFailed = true;
 			  break;
 			  
-		  case NODE_EXPANDED:
+		  case SearchEvent.NODE_EXPANDED:
 			  break;
 			  
-		  case NODE_ADDED_TO_FRONTIER:
+		  case SearchEvent.NODE_ADDED_TO_FRONTIER:
 			  numberAddedToFrontier++;
 			  
 			  update_searchSpaceLevelAndRemainingCounts();
 	          update_statesInFrontierNotVisited(); 
 			  break;
 			  
-		  case NODE_REMOVED_FROM_FRONTIER:
+		  case SearchEvent.NODE_REMOVED_FROM_FRONTIER:
 			  lastNodeVisited = node;
 			  numberRemovedFromFrontier++;
 			  

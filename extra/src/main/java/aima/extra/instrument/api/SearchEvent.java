@@ -1,11 +1,23 @@
 
 package aima.extra.instrument.api;
 
-public enum SearchEvent {
+public static class SearchEvent {
 	
-	FOUND_GOAL,
-	FAILED,
-	NODE_EXPANDED,
-	NODE_ADDED_TO_FRONTIER,
-	NODE_REMOVED_FROM_FRONTIER
+	public static final String FOUND_GOAL = "found_goal";
+	public static final String FAILED = "failed";
+	public static final String NODE_EXPANDED = "node_expanded";
+	public static final String NODE_ADDED_TO_FRONTIER = "node_added_to_frontier";
+	public static final String NODE_REMOVED_FROM_FRONTIER = "node_removed_from_frontier";
+	
+	private String eventType;
+	
+	public final String eventType()
+	{
+		return eventType;
+	}
+	
+	public SearchEvent(String event)
+	{
+		eventType = event;
+	}
 }

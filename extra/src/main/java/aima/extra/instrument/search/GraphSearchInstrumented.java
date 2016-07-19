@@ -1,37 +1,39 @@
-
 package aima.extra.instrument.search;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 
 import aima.core.search.api.Node;
 import aima.core.search.api.NodeFactory;
 import aima.core.search.api.Problem;
-import aima.core.search.api.SearchForActionsFunction;
 import aima.core.search.api.SearchController;
+import aima.core.search.api.SearchForActionsFunction;
 import aima.core.search.basic.support.BasicNodeFactory;
 import aima.core.search.basic.support.BasicSearchController;
 
 import aima.extra.instrument.api.*;
 
 /**
- * A version of TreeSearch that registers and notifies listeners
+ * A version of GraphSearch that registers and notifies listeners
  *
  * @author Ciaran O'Reilly
  * @author Benjamin Kusin
  */
-
-public class NewTreeSearchInstrumented<A, S> implements SearchForActionsFunction<A, S>, Provider {
+public class GraphSearchInstrumented<A, S> implements SearchForActionsFunction<A, S>, Provider {
 	
 	private Vector<Listener> listeners;
-	
-	// function TREE-SEARCH(problem) returns a solution, or failure
+
+	// function GRAPH-SEARCH(problem) returns a solution, or failure
 	@Override
 	public List<A> apply(Problem<A, S> problem) {
-		// initialize the frontier using the initial state of the problem
+		// initialize the frontier using the initial state of problem
 		Queue<Node<A, S>> frontier = newFrontier(problem.initialState());
 		Provider.notify(SearchEvent.NODE_ADDED_TO_FRONTIER, frontier.peek());
+		// initialize the explored set to be empty
+		Set<S> explored = newExploredSet();
 		// loop do
 		while (true) {
 			// if the frontier is empty then return failure
@@ -47,12 +49,17 @@ public class NewTreeSearchInstrumented<A, S> implements SearchForActionsFunction
 			if (problem.isGoalState(node.state())) {
 				return solution(node);
 			}
+			// add the node to the explored set
+			explored.add(node.state());
 			// expand the chosen node, adding the resulting nodes to the
 			// frontier
 			for (A action : problem.actions(node.state())) {
-				Node<A,S> childNode = newChildNode(problem, node, action);
-				frontier.add(childNode);
-				Provider.notify(new SearchEvent(SearchEvent.NODE_ADDED_TO_FRONTIER), childNode);
+				Node<A, S> child = newChildNode(problem, node, action);
+				// only if not in the frontier or explored set
+				if (!(containsState(frontier, child) || explored.contains(child.state()))) {
+					frontier.add(child);
+					Provider.notify(new SearchEvent(SearchEvent.NODE_ADDED_TO_FRONTIER), childNode);
+				}
 			}
 		}
 	}
@@ -61,19 +68,27 @@ public class NewTreeSearchInstrumented<A, S> implements SearchForActionsFunction
 	// Supporting Code
 	protected NodeFactory<A, S> nodeFactory = new BasicNodeFactory<>();
 	protected SearchController<A, S> searchController = new BasicSearchController<A, S>();
-	
-	public NewTreeSearchInstrumented() {
-	}
 
-	public NewTreeSearchInstrumented(Collection<Listener> listeners) {
+	public GraphSearchInstrumented() {
+	}
+	
+	public NewGraphSearchInstrumented(Collection<Listener> listeners) {
 		for(Listener L : listeners)
 			Provider.registerListener(this.listeners, L);
+	}
+
+	public Node<A, S> newChildNode(Problem<A, S> problem, Node<A, S> node, A action) {
+		return nodeFactory.newChildNode(problem, node, action);
 	}
 
 	public Queue<Node<A, S>> newFrontier(S initialState) {
 		Queue<Node<A, S>> frontier = new LinkedList<>();
 		frontier.add(nodeFactory.newRootNode(initialState));
 		return frontier;
+	}
+
+	public Set<S> newExploredSet() {
+		return new HashSet<>();
 	}
 
 	public List<A> failure() {
@@ -84,7 +99,8 @@ public class NewTreeSearchInstrumented<A, S> implements SearchForActionsFunction
 		return searchController.solution(node);
 	}
 
-	public Node<A, S> newChildNode(Problem<A, S> problem, Node<A, S> node, A action) {
-		return nodeFactory.newChildNode(problem, node, action);
+	public boolean containsState(Queue<Node<A, S>> frontier, Node<A, S> child) {
+		// NOTE: Not very efficient (i.e. linear in the size of the frontier)
+		return frontier.stream().anyMatch(frontierNode -> frontierNode.state().equals(child.state()));
 	}
 }

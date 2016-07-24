@@ -1,10 +1,12 @@
 package aima.extra.instrument.search;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Vector;
 
 import aima.core.search.api.Node;
 import aima.core.search.api.NodeFactory;
@@ -15,6 +17,7 @@ import aima.core.search.basic.support.BasicNodeFactory;
 import aima.core.search.basic.support.BasicSearchController;
 
 import aima.extra.instrument.api.*;
+import aima.extra.search.api.*;
 
 /**
  * A version of GraphSearch that registers and notifies listeners
@@ -22,28 +25,28 @@ import aima.extra.instrument.api.*;
  * @author Ciaran O'Reilly
  * @author Benjamin Kusin
  */
-public class GraphSearchInstrumented<A, S> implements SearchForActionsFunction<A, S>, Provider {
+public class GraphSearchInstrumented<A, S> implements SearchForActionsFunction<A, S>, SearchForActionsEventProvider<A,S> {
 	
-	private Vector<Listener> listeners;
+	private Vector<SearchForActionsListener<A,S>> listeners;
 
 	// function GRAPH-SEARCH(problem) returns a solution, or failure
 	@Override
 	public List<A> apply(Problem<A, S> problem) {
 		// initialize the frontier using the initial state of problem
 		Queue<Node<A, S>> frontier = newFrontier(problem.initialState());
-		Provider.notify(SearchEvent.NODE_ADDED_TO_FRONTIER, frontier.peek());
+		SearchForActionsEventProvider.notifyNodeAddedToFrontier(new SearchForActionsEvent<A,S>(frontier.peek(), SearchForActionsEvent.NODE_ADDED_TO_FRONTIER));
 		// initialize the explored set to be empty
 		Set<S> explored = newExploredSet();
 		// loop do
 		while (true) {
 			// if the frontier is empty then return failure
 			if (frontier.isEmpty()) {
-				Provider.notify(new SearchEvent(SearchEvent.FAILED), null);
+				SearchForActionsEventProvider.notifyFailed(new SearchForActionsEvent<A,S>(null, SearchForActionsEvent.FAILED));
 				return failure();
 			}
 			// choose a leaf node and remove it from the frontier
 			Node<A, S> node = frontier.remove();
-			Provider.notify(new SearchEvent(SearchEvent.NODE_REMOVED_FROM_FRONTIER), node);
+			SearchForActionsEventProvider.notifyNodeRemovedFromFrontier(new SearchForActionsEvent<A,S>(node, SearchForActionsEvent.NODE_REMOVED_FROM_FRONTIER));
 			// if the node contains a goal state then return the corresponding
 			// solution
 			if (problem.isGoalState(node.state())) {
@@ -58,7 +61,7 @@ public class GraphSearchInstrumented<A, S> implements SearchForActionsFunction<A
 				// only if not in the frontier or explored set
 				if (!(containsState(frontier, child) || explored.contains(child.state()))) {
 					frontier.add(child);
-					Provider.notify(new SearchEvent(SearchEvent.NODE_ADDED_TO_FRONTIER), childNode);
+					SearchForActionsEventProvider.notifyNodeAddedToFrontier(new SearchForActionsEvent<A,S>(child, SearchForActionsEvent.NODE_ADDED_TO_FRONTIER));
 				}
 			}
 		}
@@ -72,9 +75,8 @@ public class GraphSearchInstrumented<A, S> implements SearchForActionsFunction<A
 	public GraphSearchInstrumented() {
 	}
 	
-	public NewGraphSearchInstrumented(Collection<Listener> listeners) {
-		for(Listener L : listeners)
-			Provider.registerListener(this.listeners, L);
+	public GraphSearchInstrumented(Collection<SearchForActionsListener<A,S>> listeners) {
+		this.listeners=(Vector<SearchForActionsListener<A, S>>) listeners;
 	}
 
 	public Node<A, S> newChildNode(Problem<A, S> problem, Node<A, S> node, A action) {
@@ -102,5 +104,10 @@ public class GraphSearchInstrumented<A, S> implements SearchForActionsFunction<A
 	public boolean containsState(Queue<Node<A, S>> frontier, Node<A, S> child) {
 		// NOTE: Not very efficient (i.e. linear in the size of the frontier)
 		return frontier.stream().anyMatch(frontierNode -> frontierNode.state().equals(child.state()));
+	}
+
+	@Override
+	public Collection<SearchForActionsListener<A, S>> searchForActionsListeners() {
+		return listeners;
 	}
 }

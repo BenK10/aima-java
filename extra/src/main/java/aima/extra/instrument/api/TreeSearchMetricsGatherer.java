@@ -2,12 +2,10 @@ package aima.extra.instrument.api;
 
 
 import aima.core.search.api.Node;
-import aima.core.search.basic.TreeSearch;
 import aima.core.search.basic.support.BasicNode;
-import aima.core.search.basic.support.BasicNodeFactory;
 
-import aima.extra.instrument.api.Listener;
-import aima.extra.instrument.api.SearchEvent;
+import aima.extra.search.api.SearchForActionsEvent;
+import aima.extra.search.api.SearchForActionsListener;
 
 import java.util.*;
 
@@ -17,7 +15,7 @@ import java.util.*;
  *
  */
 
-public class TreeSearchMetricsGatherer implements Listener {
+public class TreeSearchMetricsGatherer<A,S> implements SearchForActionsListener<A,S> {
 	
 	 private boolean            searchFailed = false;
 	 private int                maxFrontierSize = 0;
@@ -45,7 +43,7 @@ public class TreeSearchMetricsGatherer implements Listener {
      
      private void update_searchSpaceLevelAndRemainingCounts(final String updateType, Node<A,S> node)
      {
-    	 int level = BasicNode.depth(removed);
+    	 int level = BasicNode.depth(node);
     	 
     	 if(updateType==REMOVE_UPDATE)
     	 {
@@ -67,7 +65,7 @@ public class TreeSearchMetricsGatherer implements Listener {
     	 }
      }
      
-     private void update_statesVisitedCounts( Node<A,S> removed)
+     private void update_statesVisitedCounts(Node<A,S> removed)
      {
     	 statesVisitedCounts = new HashMap<>(statesVisitedCounts);
          Integer visitedCount = statesVisitedCounts.get(removed.state());
@@ -99,39 +97,22 @@ public class TreeSearchMetricsGatherer implements Listener {
      }
      
     @Override
-	public void processEvent(SearchEvent event, Node<A,S> node)
+	public void nodeAddedToFrontier(SearchForActionsEvent<A,S> event)  
 	{
-		switch (event.eventType())
-		{
-		  case SearchEvent.FOUND_GOAL:
-			  break;
-			  
-		  case SearchEvent.FAILED:
-			  searchFailed = true;
-			  break;
-			  
-		  case SearchEvent.NODE_EXPANDED:
-			  break;
-			  
-		  case SearchEvent.NODE_ADDED_TO_FRONTIER:
-			  numberAddedToFrontier++;
-			  
-			  update_searchSpaceLevelAndRemainingCounts();
-	          update_statesInFrontierNotVisited(); 
-			  break;
-			  
-		  case SearchEvent.NODE_REMOVED_FROM_FRONTIER:
-			  lastNodeVisited = node;
-			  numberRemovedFromFrontier++;
-			  
-			  update_searchSpaceLevelAndRemainingCounts();
-			  update_statesVisitedCounts();
-	          update_statesInFrontierNotVisited(); 
-			  break;
-			  
-		default:
-			break; 
-		}
+		  numberAddedToFrontier++;
+		  update_searchSpaceLevelAndRemainingCounts(event.eventType(), event.getSourceNode());
+          update_statesInFrontierNotVisited(event.eventType(), event.getSourceNode()); 
 	}
+		
+    @Override
+    public void nodeRemovedFromFrontier(SearchForActionsEvent<A,S> event)
+    {
+    	 lastNodeVisited = event.getSourceNode();
+		 numberRemovedFromFrontier++;
+		  
+		 update_searchSpaceLevelAndRemainingCounts(event.eventType(), event.getSourceNode());
+		 update_statesVisitedCounts(event.getSourceNode());
+         update_statesInFrontierNotVisited(event.eventType(), event.getSourceNode()); 
+    }
 
 }

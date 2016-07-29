@@ -34,19 +34,19 @@ public class GraphSearchInstrumented<A, S> implements SearchForActionsFunction<A
 	public List<A> apply(Problem<A, S> problem) {
 		// initialize the frontier using the initial state of problem
 		Queue<Node<A, S>> frontier = newFrontier(problem.initialState());
-		SearchForActionsEventProvider.notifyNodeAddedToFrontier(new SearchForActionsEvent<A,S>(frontier.peek(), SearchForActionsEvent.NODE_ADDED_TO_FRONTIER));
+		notifyNodeAddedToFrontier(frontier.peek());
 		// initialize the explored set to be empty
 		Set<S> explored = newExploredSet();
 		// loop do
 		while (true) {
 			// if the frontier is empty then return failure
 			if (frontier.isEmpty()) {
-				SearchForActionsEventProvider.notifyFailed(new SearchForActionsEvent<A,S>(null, SearchForActionsEvent.FAILED));
+				notifyFailed((null));
 				return failure();
 			}
 			// choose a leaf node and remove it from the frontier
 			Node<A, S> node = frontier.remove();
-			SearchForActionsEventProvider.notifyNodeRemovedFromFrontier(new SearchForActionsEvent<A,S>(node, SearchForActionsEvent.NODE_REMOVED_FROM_FRONTIER));
+			notifyNodeRemovedFromFrontier(node);
 			// if the node contains a goal state then return the corresponding
 			// solution
 			if (problem.isGoalState(node.state())) {
@@ -61,7 +61,7 @@ public class GraphSearchInstrumented<A, S> implements SearchForActionsFunction<A
 				// only if not in the frontier or explored set
 				if (!(containsState(frontier, child) || explored.contains(child.state()))) {
 					frontier.add(child);
-					SearchForActionsEventProvider.notifyNodeAddedToFrontier(new SearchForActionsEvent<A,S>(child, SearchForActionsEvent.NODE_ADDED_TO_FRONTIER));
+					notifyNodeAddedToFrontier(child);
 				}
 			}
 		}

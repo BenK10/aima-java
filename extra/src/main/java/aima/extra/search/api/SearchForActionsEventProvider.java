@@ -2,6 +2,7 @@ package aima.extra.search.api;
 
 import java.util.Collection;
 
+import aima.core.search.api.Node;
 import aima.extra.search.api.SearchForActionsEvent;
 
 
@@ -24,30 +25,45 @@ public interface SearchForActionsEventProvider <A,S> {
 		searchForActionsListeners().remove(listener);
 	}
 	
-	default void notifyFoundGoal(SearchForActionsEvent<A,S> event)
+	default void notifyFoundGoal(Node<A,S> node)
 	{
+		if(searchForActionsListeners().size() > 0) {
+	        SearchForActionsEvent<A,S> event = new SearchForActionsEvent<>(node, SearchForActionsEvent.CMD_FRONTIER_ADD);
 		searchForActionsListeners().forEach(l -> l.foundGoal(event));
+		}
 	}
 	
-	default void notifyFailed(SearchForActionsEvent<A,S> event)
+	default void notifyFailed(Node<A,S> node)
 	{
+		if(searchForActionsListeners().size() > 0) {
+	        SearchForActionsEvent<A,S> event = new SearchForActionsEvent<>(node, SearchForActionsEvent.CMD_FAILURE);
 		searchForActionsListeners().forEach(l -> l.failed(event));
+		}
 	}
 	
 	
-	default void notifyNodeExpanded(SearchForActionsEvent<A,S> event)
+	default void notifyNodeExpanded(Node<A,S> node)
 	{
-		searchForActionsListeners().forEach(l -> l.nodeExpanded(event));
+		if(searchForActionsListeners().size() > 0) {
+	        SearchForActionsEvent<A,S> event = new SearchForActionsEvent<>(node, SearchForActionsEvent.CMD_EXPAND_NODE);
+		searchForActionsListeners().forEach(l -> l.failed(event));
+		}
 	}
 	
-	default void notifyNodeAddedToFrontier(SearchForActionsEvent<A,S> event)
+	default void notifyNodeAddedToFrontier(Node<A,S> node)
 	{
-		searchForActionsListeners().forEach(l -> l.nodeAddedToFrontier(event));
+		if(searchForActionsListeners().size() > 0) {
+	        SearchForActionsEvent<A,S> event = new SearchForActionsEvent<>(node, SearchForActionsEvent.CMD_FRONTIER_ADD);
+		searchForActionsListeners().forEach(l -> l.failed(event));
+		}
 	}
 	
-	default void notifyNodeRemovedFromFrontier(SearchForActionsEvent<A,S> event)
+	default void notifyNodeRemovedFromFrontier(Node<A,S> node)
 	{
-		searchForActionsListeners().forEach(l -> l.nodeRemovedFromFrontier(event));
+		if(searchForActionsListeners().size() > 0) {
+	        SearchForActionsEvent<A,S> event = new SearchForActionsEvent<>(node, SearchForActionsEvent.CMD_FRONTIER_REMOVE);
+		searchForActionsListeners().forEach(l -> l.failed(event));
+		}
 	}
 	
 	Collection<SearchForActionsListener<A,S>> searchForActionsListeners();

@@ -12,11 +12,16 @@ import aima.core.search.api.Node;
 
 public class SearchForActionsEvent<A,S> extends EventObject {
 	
-	public static final String FOUND_GOAL = "found_goal";
-	public static final String FAILED = "failed";
-	public static final String NODE_EXPANDED = "node_expanded";
-	public static final String NODE_ADDED_TO_FRONTIER = "node_added_to_frontier";
-	public static final String NODE_REMOVED_FROM_FRONTIER = "node_removed_from_frontier";
+
+    public static final String CMD_START = "start";
+    public static final String CMD_INITIALIZE = "initialize";
+    public static final String CMD_FRONTIER_EMPTY_CHECK = "frontier-empty-check";
+    public static final String CMD_SOLUTION = "solution";
+	public static final String CMD_CHECK_GOAL = "check-goal";
+	public static final String CMD_FAILURE = "failure";
+	public static final String CMD_EXPAND_NODE = "expand-node";
+	public static final String CMD_FRONTIER_ADD = "frontier-add";
+	public static final String CMD_FRONTIER_REMOVE = "frontier-remove";
 	
 	private String eventType;
 	

@@ -36,17 +36,17 @@ public class NewTreeSearchInstrumented<A, S> implements SearchForActionsFunction
 	public List<A> apply(Problem<A, S> problem) {
 		// initialize the frontier using the initial state of the problem
 		Queue<Node<A, S>> frontier = newFrontier(problem.initialState());
-		SearchForActionsEventProvider.notifyNodeAddedToFrontier(new SearchForActionsEvent<A,S>(frontier.peek(), SearchForActionsEvent.NODE_ADDED_TO_FRONTIER));
+		notifyNodeAddedToFrontier(frontier.peek());
 		// loop do
 		while (true) {
 			// if the frontier is empty then return failure
 			if (frontier.isEmpty()) {
-				SearchForActionsEventProvider.notifyFailed(new SearchForActionsEvent<A,S>(null, SearchForActionsEvent.FAILED));
+				notifyFailed(null);
 				return failure();
 			}
 			// choose a leaf node and remove it from the frontier
 			Node<A, S> node = frontier.remove();
-			SearchForActionsEventProvider.notifyNodeRemovedFromFrontier(new SearchForActionsEvent<A,S>(node, SearchForActionsEvent.NODE_REMOVED_FROM_FRONTIER));
+			notifyNodeRemovedFromFrontier(node);
 			// if the node contains a goal state then return the corresponding
 			// solution
 			if (problem.isGoalState(node.state())) {
@@ -57,7 +57,7 @@ public class NewTreeSearchInstrumented<A, S> implements SearchForActionsFunction
 			for (A action : problem.actions(node.state())) {
 				Node<A,S> childNode = newChildNode(problem, node, action);
 				frontier.add(childNode);
-				SearchForActionsEventProvider.notifyNodeAddedToFrontier(new SearchForActionsEvent<A,S>(childNode, SearchForActionsEvent.NODE_ADDED_TO_FRONTIER));
+				notifyNodeAddedToFrontier(childNode);
 			}
 		}
 	}
